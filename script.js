@@ -1,6 +1,7 @@
 
 const tbody = document.querySelector("tbody");
 const form = document.querySelector("form");
+const submitButton = document.querySelector("form > button");
 
 function deleteRecord(event){
     const buttonRef = event.target;
@@ -23,8 +24,15 @@ function addEmployee(employee){
     let deleteButton = document.createElement("button");
     deleteButton.innerText = "delete";
 
+    let editButton = document.createElement("button");
+    editButton.innerText = "edit";
+
     deleteButton.addEventListener("click", deleteRecord);
     options.appendChild(deleteButton);
+
+    editButton.addEventListener("click", onEditClick);
+    options.appendChild(editButton);
+
     tr.appendChild(options);
     tbody.appendChild(tr);
 }
@@ -39,7 +47,11 @@ function onSubmitForm(event){
         email : form["email"].value,
         role : form["role"].value
     }
-    addEmployee(employeeData);
+    if(editOption.isEditing){
+        editEmployee(employeeData);
+    }else{
+        addEmployee(employeeData);
+    }
     form.reset();
 }
 
